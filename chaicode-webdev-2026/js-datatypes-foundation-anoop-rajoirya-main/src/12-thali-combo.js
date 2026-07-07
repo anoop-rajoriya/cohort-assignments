@@ -54,16 +54,76 @@
  */
 export function createThaliDescription(thali) {
   // Your code here
+  if (typeof thali !== "object" || thali === null || Array.isArray(thali))
+    return "";
+
+  const isValid = ["name", "items", "price", "isVeg"].every((key) =>
+    Object.hasOwn(thali, key),
+  );
+
+  if (!isValid) return "";
+
+  return `${thali.name.toUpperCase()} (${thali.isVeg ? "Veg" : "Non-Veg"}) - Items: ${thali.items.join(", ")} - Rs.${thali.price.toFixed(2)}`;
 }
 
 export function getThaliStats(thalis) {
   // Your code here
+  if (!Array.isArray(thalis) || !thalis.length) return null;
+
+  const vegCount = thalis.filter(({ isVeg }) => isVeg).length;
+  const nonVegCount = thalis.length - vegCount;
+
+  const avgPrice = (
+    thalis.reduce((sum, { price }) => sum + price, 0) / thalis.length
+  ).toFixed(2);
+
+  const cheapest = Math.min(...thalis.map(({ price }) => price));
+  const costliest = Math.max(...thalis.map(({ price }) => price));
+
+  const names = thalis.map(({ name }) => name);
+
+  return {
+    totalThalis: thalis.length,
+    vegCount,
+    nonVegCount,
+    avgPrice,
+    cheapest,
+    costliest,
+    names,
+  };
 }
 
 export function searchThaliMenu(thalis, query) {
   // Your code here
+  if (!Array.isArray(thalis) || typeof query !== "string") return [];
+
+  if (!thalis.length || !query.length) return [];
+
+  return thalis.filter((thali) => {
+    if (thali.name.toLowerCase().includes(query.toLowerCase())) return true;
+
+    const isContains = thali.items.some((item) =>
+      item.toLowerCase().includes(query.toLowerCase()),
+    );
+
+    if (isContains) return true;
+
+    return false;
+  });
 }
 
 export function generateThaliReceipt(customerName, thalis) {
   // Your code here
+  if (
+    typeof customerName !== "string" ||
+    !Array.isArray(thalis) ||
+    !thalis.length
+  )
+    return "";
+
+  const lineItems = thalis.map(
+    (thali) => `- ${thali.name} x Rs.${thali.price}`,
+  );
+
+  return `THALI RECEIPT\n---\nCustomer: ${customerName.toUpperCase()}\n${lineItems.join("\n")}\n---\nTotal: Rs.${thalis.reduce((sum, { price }) => sum + price, 0)}\nItems: ${thalis.length}`;
 }
