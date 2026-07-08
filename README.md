@@ -7,3 +7,6 @@ A collection of cohort assignments i joined. It consist unsolved and solved assi
 ## Chaicode Webdev 2026
 
 Dir named `chaicode-webdev-2026` contains all assignemnts i solved in in that cohort.
+
+- js-datatypes-foundation
+- js-conditionals
