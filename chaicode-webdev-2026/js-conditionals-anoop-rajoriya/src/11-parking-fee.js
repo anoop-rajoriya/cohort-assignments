@@ -34,4 +34,31 @@
  */
 export function calculateParkingFee(hours, vehicleType) {
   // Your code here
+
+  if (typeof hours !== "number" || typeof vehicleType !== "string") return -1;
+
+  // const vehicles = ["car", "motorcycle", "bus"];
+  const vehicles = {
+    car: [5, 3, 30],
+    motorcycle: [3, 2, 18],
+    bus: [10, 7, 60],
+  };
+
+  if (hours <= 0 || !Object.keys(vehicles).includes(vehicleType)) return -1;
+
+  return calculateFee(vehicles[vehicleType], Math.ceil(hours));
+}
+
+function calculateFee(options, hours) {
+  const [initial, base, limit] = options;
+
+  if (hours === 1) {
+    return initial;
+  }
+
+  const fee = initial + (hours - 1) * base;
+
+  if (fee >= limit) return limit;
+
+  return fee;
 }
