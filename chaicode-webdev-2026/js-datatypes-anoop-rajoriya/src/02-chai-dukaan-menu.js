@@ -29,4 +29,14 @@
  */
 export function formatChaiMenu(items) {
   // Your code here
+  if (!Array.isArray(items) || !items.length) return "";
+
+  return items
+    .filter((item) => {
+      if (typeof item.name !== "string" || item.name === "") return false;
+      if (item.price <= 0) return false;
+      return true;
+    })
+    .map((item) => `${item.name.toUpperCase()} - Rs.${item.price}`)
+    .join(" | ");
 }
