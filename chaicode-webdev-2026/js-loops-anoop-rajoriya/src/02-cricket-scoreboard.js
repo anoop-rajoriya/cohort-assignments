@@ -32,33 +32,4 @@
  */
 export function cricketScoreboard(balls) {
   // Your code here
-  let scoreboard = { totalRuns: 0, totalBalls: 0, wickets: 0, fours: 0, sixes: 0 }
-  const isValidBalls = Array.isArray(balls) && balls.length > 0
-
-  if (!isValidBalls) return scoreboard
-
-
-
-  for (let i = 0; i < balls.length; i++) {
-    if (scoreboard.wickets < 10) {
-      scoreboard.totalBalls += 1;
-      if (balls[i] === -1) {
-        scoreboard.wickets += 1
-      } else if (balls[i] === 4) {
-        scoreboard.fours += 1
-      } else if (balls[i] === 6) {
-        scoreboard.sixes += 1
-      }
-
-      if (balls[i] > 0) {
-        scoreboard.totalRuns += balls[i]
-      }
-    }
-  }
-
-  return scoreboard
 }
-
-
-const result = cricketScoreboard([4, 0, 6, -1, 2, 1])
-console.log(result);

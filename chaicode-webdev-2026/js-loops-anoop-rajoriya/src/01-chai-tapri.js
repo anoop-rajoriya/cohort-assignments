@@ -28,20 +28,4 @@
  */
 export function chaiTapriRevenue(customers) {
   // Your code here
-  const isValid = Number.isInteger(customers) && customers > 0
-
-  if (!isValid) return { totalChai: 0, totalRevenue: 0 }
-
-  let cuttingChaiCount = 0
-  let adrakChaiCount = 0
-
-  for (let i = 1; i <= customers; i++) {
-    if ((i % 3) === 0) adrakChaiCount++
-    else cuttingChaiCount++
-  }
-
-  return { totalChai: customers, totalRevenue: (cuttingChaiCount * 10) + (adrakChaiCount * 15) }
 }
-
-// const res = chaiTapriRevenue(3)
-// console.log(res)

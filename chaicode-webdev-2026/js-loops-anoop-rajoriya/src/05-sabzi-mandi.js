@@ -31,30 +31,4 @@
  */
 export function sabziMandiBill(shoppingList, priceList) {
   // Your code here
-  let bill = {
-    items: [],
-    totalBill: 0
-  }
-
-  for (const item of shoppingList) {
-    const itemName = item.name.toLowerCase().replace(" ", "_")
-
-    if (!priceList.hasOwnProperty(itemName)) continue
-
-    const perKgPrice = priceList[itemName]
-
-    if (perKgPrice > 80) continue
-
-    bill.totalBill += perKgPrice * item.qty
-    bill.items.push({
-      name: item.name,
-      qty: item.qty,
-      cost: perKgPrice * item.qty
-    })
-  }
-
-  return bill
 }
-
-
-console.log(sabziMandiBill([{ name: "aloo", qty: 2 }, { name: "shimla mirch", qty: 1 }], { aloo: 30, tamatar: 40, shimla_mirch: 90 }))
