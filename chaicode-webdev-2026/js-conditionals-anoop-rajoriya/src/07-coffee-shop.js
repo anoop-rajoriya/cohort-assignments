@@ -33,4 +33,38 @@
 
 export function calculateCoffeePrice(size, type, extras = {}) {
   // Your code here
+  // const sizes = ["small", "medium", "large"]
+  // const types = ["regular", "latte", "cappuccino", "mocha"]
+
+  const sizes = {
+    small: 3,
+    medium: 4,
+    large: 5,
+  };
+
+  const types = {
+    regular: 0,
+    latte: 1,
+    cappuccino: 1.5,
+    mocha: 2,
+  };
+
+  if (
+    !Object.keys(sizes).includes(size.toLowerCase()) ||
+    !Object.keys(types).includes(type.toLowerCase())
+  ) {
+    return -1;
+  }
+
+  let price = sizes[size] + types[type];
+
+  if (extras.whippedCream) {
+    price += 0.5;
+  }
+
+  if (extras.extraShot) {
+    price += 0.75;
+  }
+
+  return price;
 }

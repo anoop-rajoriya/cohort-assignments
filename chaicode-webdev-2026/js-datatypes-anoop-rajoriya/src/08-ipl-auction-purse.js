@@ -45,4 +45,63 @@
  */
 export function iplAuctionSummary(team, players) {
   // Your code here
+  if (team === null || typeof team !== "object" || Array.isArray(team))
+    return null;
+
+  if (!Object.hasOwn(team, "purse") || team["purse"] < 0) return null;
+
+  if (!Array.isArray(players) || !players.length) return null;
+
+  const teamName = team["name"];
+  const totalSpent = players.reduce((total, { price }) => total + price, 0);
+  const isOverBudget = totalSpent > team["purse"];
+  const remaining = team["purse"] - totalSpent;
+  const costliestPlayer = players.sort((a, b) => b["price"] - a["price"])[0];
+  const cheapestPlayer = players.sort((a, b) => a["price"] - b["price"])[0];
+
+  let monySpent = 0;
+  const buyedPlayer = players.filter((player) => {
+    if (monySpent + player.price <= team["purse"]) {
+      monySpent += player.price;
+      return true;
+    }
+
+    return false;
+  });
+
+  const playerCount = buyedPlayer.length;
+  const averagePrice = Math.round(totalSpent / playerCount);
+
+  const byRole = buyedPlayer.reduce((roles, player) => {
+    const { role } = player;
+
+    switch (role) {
+      case "bat":
+        roles.bat = 1 + (roles.bat || 0);
+        break;
+      case "bowl":
+        roles.bowl = 1 + (roles.bowl || 0);
+        break;
+      case "ar":
+        roles.ar = 1 + (roles.ar || 0);
+        break;
+      case "wk":
+        roles.wk = 1 + (roles.wk || 0);
+        break;
+    }
+
+    return roles;
+  }, {});
+
+  return {
+    teamName,
+    totalSpent,
+    remaining,
+    costliestPlayer,
+    cheapestPlayer,
+    playerCount,
+    averagePrice,
+    byRole,
+    isOverBudget,
+  };
 }

@@ -1,7 +1,7 @@
 /**
  * 🎬 Bollywood Movie Title Fixer
  *
- * Pappu ne ek movie database banaya hai lekin usne saare titles galat type
+ * Pappu ne ek movie database banaya hai lekin usme saare titles galat type
  * kar diye - kuch ALL CAPS mein, kuch all lowercase mein, kuch mein extra
  * spaces hain. Tu fix kar de titles ko proper Title Case mein!
  *
@@ -31,4 +31,33 @@
  */
 export function fixBollywoodTitle(title) {
   // Your code here
+  if (typeof title !== "string" || title === "") return "";
+
+  const wordList = [
+    "ka",
+    "ki",
+    "ke",
+    "se",
+    "aur",
+    "ya",
+    "the",
+    "of",
+    "in",
+    "a",
+    "an",
+  ];
+
+  return title
+    .split(" ")
+    .map((token, index) => {
+      const trimmedToken = token.trim().toLowerCase();
+
+      if (token === "") return null;
+
+      if (wordList.includes(trimmedToken) && index !== 0) return trimmedToken;
+
+      return `${trimmedToken.charAt(0).toUpperCase()}${trimmedToken.slice(1)}`;
+    })
+    .filter((token) => token !== null)
+    .join(" ");
 }
