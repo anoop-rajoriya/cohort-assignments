@@ -10,3 +10,5 @@ Dir named `chaicode-webdev-2026` contains all assignemnts i solved in in that co
 
 - js-datatypes-foundation
 - js-conditionals
+- js-datatypes
+- js-loops
