@@ -31,4 +31,29 @@
  */
 export function sabziMandiBill(shoppingList, priceList) {
   // Your code here
+  const bill = { items: [], totalBill: 0 };
+
+  if (!Array.isArray(shoppingList) || !shoppingList.length) return bill;
+  if (priceList === null || typeof priceList !== "object") return bill;
+
+  for (const item of shoppingList) {
+    const { name, qty } = item;
+
+    if (!priceList.hasOwnProperty(name.toLowerCase())) continue;
+
+    const itemPrice = priceList[name.toLowerCase()];
+
+    if (itemPrice > 80) continue;
+
+    const cost = qty * itemPrice;
+
+    bill.items.push({
+      name,
+      qty,
+      cost,
+    });
+    bill.totalBill += cost;
+  }
+
+  return bill;
 }
