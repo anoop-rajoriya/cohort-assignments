@@ -37,27 +37,4 @@
  */
 export function rangoli(n) {
   // Your code here
-  if (!Number.isInteger(n) || n <= 0) {
-    return []
-  }
-
-  let pattern = []
-
-  for (let i = 1; i <= n; i++) {
-    const spaces = " ".repeat(n - i)
-    const chars = Array(i).fill("*").join(" ")
-    pattern.push(spaces + chars)
-  }
-
-  for (let j = n - 1; j >= 1; j--) {
-    const spaces = " ".repeat(n - j)
-    const chars = Array(j).fill("*").join(" ")
-    pattern.push(spaces + chars)
-  }
-
-  return pattern
 }
-
-console.log(rangoli(1))
-console.log(rangoli(2))
-console.log(rangoli(3))

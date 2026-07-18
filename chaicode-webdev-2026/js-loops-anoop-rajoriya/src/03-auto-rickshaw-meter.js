@@ -33,31 +33,4 @@
  */
 export function calculateAutoFare(distance, waitingMinutes = 0) {
   // Your code here
-  const MIN_FAIR = 30
-  const MID_RATE = 15
-  const LONG_RATE = 10
-  const WAIT_RATE_PER_PAIR = 5
-
-  if (typeof distance !== "number" || distance <= 0 || waitingMinutes < 0) {
-    return -1
-  }
-
-  const totalKm = Math.ceil(distance)
-  let travelCharge = 0
-
-  let currentKm = 1
-
-  while (currentKm <= totalKm) {
-    if (currentKm === 1) travelCharge += MIN_FAIR
-    else if (currentKm <= 5) travelCharge += MID_RATE
-    else travelCharge += LONG_RATE
-
-    currentKm++
-  }
-
-  const waitingCharge = Math.ceil(waitingMinutes / 2) * WAIT_RATE_PER_PAIR
-
-  return travelCharge + waitingCharge
 }
-
-console.log(calculateAutoFare(7, 4))

@@ -46,45 +46,4 @@
  */
 export function railwayReservation(passengers, trains) {
   // Your code here
-  if (!Array.isArray(passengers) || passengers.length === 0 || !Array.isArray(trains) || trains.length === 0) {
-    return []
-  }
-
-  let reservation = []
-
-  for (let i = 0; i < passengers.length; i++) {
-    const passenger = passengers[i]
-    let train = null
-
-    for (let j = 0; j < trains.length; j++) {
-      if (passenger.trainNumber === trains[j].trainNumber) {
-        train = trains[j]
-        break
-      }
-    }
-
-    const { name, trainNumber, preferred, fallback } = passenger
-
-    if (train === null) {
-      reservation.push({ name, trainNumber, class: null, status: "train_not_found" })
-      break
-    } else if (train.seats.hasOwnProperty(preferred) && train.seats[preferred] > 0) {
-      reservation.push({ name, trainNumber, class: preferred, status: "confirmed" })
-      train.seats[preferred] -= 1
-    } else if (train.seats.hasOwnProperty(fallback) && train.seats[fallback] > 0) {
-      reservation.push({ name, trainNumber, class: fallback, status: "confirmed" })
-      train.seats[fallback] -= 1
-    } else {
-      reservation.push({ name, trainNumber, class: preferred, status: "waitlisted" })
-    }
-  }
-
-  return reservation
 }
-
-const res = railwayReservation(
-  [{ name: "Rahul", trainNumber: "12345", preferred: "ac3", fallback: "sleeper" }],
-  [{ trainNumber: "12345", name: "Rajdhani", seats: { sleeper: 5, ac3: 0, ac2: 1, ac1: 0 } }]
-)
-
-console.log(res);
