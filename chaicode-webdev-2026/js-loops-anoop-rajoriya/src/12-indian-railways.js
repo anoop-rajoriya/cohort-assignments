@@ -44,6 +44,120 @@
  *   // ac3 has 0 seats, try fallback sleeper (5 seats), allocated!
  *   // => [{ name: "Rahul", trainNumber: "12345", class: "sleeper", status: "confirmed" }]
  */
+
 export function railwayReservation(passengers, trains) {
   // Your code here
+  if (
+    ![passengers, trains].every(
+      (item) => Array.isArray(item) && item.length > 0,
+    )
+  )
+    return [];
+
+  const processed = [];
+
+  for (const passenger of passengers) {
+    let _class = null;
+    let status = null;
+    let foundTrain = null;
+
+    for (const train of trains) {
+      if (train.trainNumber === passenger.trainNumber) foundTrain = train;
+    }
+
+    if (foundTrain === null) {
+      _class = null;
+      status = "train_not_found";
+    } else if (
+      foundTrain.seats.hasOwnProperty(passenger.preferred) &&
+      foundTrain.seats[passenger.preferred] > 0
+    ) {
+      _class = passenger.preferred;
+      status = "confirmed";
+      foundTrain.seats[passenger.preferred]--;
+    } else if (
+      foundTrain.seats.hasOwnProperty(passenger.fallback) &&
+      foundTrain.seats[passenger.fallback] > 0
+    ) {
+      _class = passenger.fallback;
+      status = "confirmed";
+      foundTrain.seats[passenger.fallback]--;
+    } else {
+      _class = passenger.preferred;
+      status = "waitlisted";
+    }
+
+    processed.push({
+      name: passenger.name,
+      trainNumber: passenger.trainNumber,
+      class: _class,
+      status,
+    });
+  }
+
+  return processed;
 }
+
+// export function railwayReservation(passengers, trains) {
+//   // Your code here
+//   if (
+//     ![passengers, trains].every(
+//       (item) => Array.isArray(item) && item.length > 0,
+//     )
+//   )
+//     return [];
+
+//   const processed = [];
+
+//   for (const passenger of passengers) {
+//     let foundTrain = null;
+
+//     for (const train of trains) {
+//       if (train.trainNumber === passenger.trainNumber) foundTrain = train;
+//     }
+
+//     if (foundTrain === null) {
+//       processed.push({
+//         name: passenger.name,
+//         trainNumber: passenger.trainNumber,
+//         class: null,
+//         status: "train_not_found",
+//       });
+
+//       continue;
+//     }
+//     if (foundTrain.seats.hasOwnProperty(passenger.preferred)) {
+//       if (foundTrain.seats[passenger.preferred] > 0) {
+//         processed.push({
+//           name: passenger.name,
+//           trainNumber: passenger.trainNumber,
+//           class: passenger.preferred,
+//           status: "confirmed",
+//         });
+//         foundTrain.seats[passenger.preferred]--;
+//         continue;
+//       }
+//     }
+//     if (foundTrain.seats.hasOwnProperty(passenger.fallback)) {
+//       if (foundTrain.seats[passenger.fallback] > 0) {
+//         processed.push({
+//           name: passenger.name,
+//           trainNumber: passenger.trainNumber,
+//           class: passenger.fallback,
+//           status: "confirmed",
+//         });
+//         foundTrain.seats[passenger.fallback]--;
+//         continue;
+//       }
+//     }
+
+//     processed.push({
+//       name: passenger.name,
+//       trainNumber: passenger.trainNumber,
+//       class: passenger.preferred,
+//       status: "waitlisted",
+//     });
+//   }
+
+//   return processed;
+// }
