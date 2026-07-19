@@ -38,4 +38,61 @@
  */
 export function iplPointsTable(matches) {
   // Your code here
+
+  if (!Array.isArray(matches) || !matches.length) return [];
+
+  const table = {};
+  const mockupProperty = {
+    played: 0,
+    won: 0,
+    lost: 0,
+    tied: 0,
+    noResult: 0,
+    points: 0,
+  };
+
+  for (const match of matches) {
+    const team1 = table[match.team1] ?? { ...mockupProperty };
+    const team2 = table[match.team2] ?? { ...mockupProperty };
+
+    team1.played += 1;
+    team2.played += 1;
+    if (match.result === "win") {
+      if (match.winner === match.team1) {
+        team1.points += 2;
+
+        team1.won += 1;
+        team2.lost += 1;
+      }
+
+      if (match.winner === match.team2) {
+        team2.points += 2;
+
+        team2.won += 1;
+        team1.lost += 1;
+      }
+    } else {
+      team1.points += 1;
+      team2.points += 1;
+      if (match.result === "tie") {
+        team1.tied += 1;
+        team2.tied += 1;
+      } else if (match.result === "no_result") {
+        team1.noResult += 1;
+        team2.noResult += 1;
+      }
+    }
+
+    Object.assign(table, { [match.team1]: team1 }, { [match.team2]: team2 });
+  }
+
+  return Object.entries(table)
+    .map(([key, value]) => ({ team: key, ...value }))
+    .sort((a, b) => {
+      if (a.points === b.points) {
+        return a.team.localeCompare(b.team);
+      } else {
+        return b.points - a.points;
+      }
+    });
 }
